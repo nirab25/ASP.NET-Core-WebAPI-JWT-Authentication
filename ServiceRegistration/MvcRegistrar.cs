@@ -9,6 +9,7 @@ using DotNetCoreJWTAuth.Config;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
+using DotNetCoreJWTAuth.Services;
 
 namespace DotNetCoreJWTAuth.ServiceRegistration
 {
@@ -21,6 +22,8 @@ namespace DotNetCoreJWTAuth.ServiceRegistration
             configuration.Bind(key: nameof(JwtSettings), jwtSettings);
 
             services.AddSingleton(jwtSettings);
+
+            services.AddScoped<IIdentityService, IdentityService>();
 
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
 

@@ -23,5 +23,12 @@ namespace DotNetCoreJWTAuth.Config.v1
 
             public const string Delete = Base + "/products/{productID}";
         }
+
+        public static class Identity
+        {
+            public const string Login = Base + "/identity/login";
+
+            public const string Register = Base + "/identity/register";
+        }
     }
 }

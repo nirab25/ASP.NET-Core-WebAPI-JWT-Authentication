@@ -8,9 +8,12 @@ using DotNetCoreJWTAuth.Models.v1.Requests;
 using DotNetCoreJWTAuth.Models.v1.Responses;
 using DotNetCoreJWTAuth.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace DotNetCoreJWTAuth.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ProductController : Controller
     {
         private readonly  IProductService _productService;

@@ -16,8 +16,8 @@ namespace DotNetCoreJWTAuth.ServiceRegistration
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<MSSQLDBContext>();
 
-            //services.AddScoped<IProductService, ProductService>();
-            services.AddSingleton<IProductService, CosmosProductService>();
+            services.AddScoped<IProductService, ProductService>();
+            //services.AddSingleton<IProductService, CosmosProductService>();
         }
     }
 }
