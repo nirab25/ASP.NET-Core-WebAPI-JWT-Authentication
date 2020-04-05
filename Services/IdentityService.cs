@@ -27,9 +27,9 @@ namespace DotNetCoreJWTAuth.Services
 
         public async Task<AuthenticationResult> RegisterAsync(UserRegistrationRequest request)
         {
-            var existingUser = await _userManager.FindByNameAsync(request.Username);
+            var user = await _userManager.FindByNameAsync(request.Username);
 
-            if (existingUser != null)
+            if (user != null)
             {
                 return new AuthenticationResult
                 {
@@ -53,6 +53,11 @@ namespace DotNetCoreJWTAuth.Services
                 };
             }
 
+            return GenerateAuthenticationResult(newUsr);
+        }
+
+        private AuthenticationResult GenerateAuthenticationResult(IdentityUser newUsr)
+        {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -75,6 +80,30 @@ namespace DotNetCoreJWTAuth.Services
                 Success = true,
                 Token = tokenHandler.WriteToken(token)
             };
+        }
+        public async Task<AuthenticationResult> LoginAsync(UserLoginRequest request)
+        {
+            var user = await _userManager.FindByNameAsync(request.Username);
+
+            if (user == null)
+            {
+                return new AuthenticationResult
+                {
+                    Errors = new[] { "User does not exists!" }
+                };
+            }
+
+            var isUserPasswordMatched = await _userManager.CheckPasswordAsync(user, request.Password);
+
+            if (!isUserPasswordMatched)
+            {
+                return new AuthenticationResult
+                {
+                    Errors = new[] { "Username/Password is wrong!" }
+                };
+            }
+
+            return GenerateAuthenticationResult(user);
         }
     }
 }

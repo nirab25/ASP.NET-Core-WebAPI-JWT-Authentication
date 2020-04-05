@@ -9,6 +9,7 @@ namespace DotNetCoreJWTAuth.Services
 {
     public interface IIdentityService
     {
-        public Task<AuthenticationResult> RegisterAsync(UserRegistrationRequest request);
+        Task<AuthenticationResult> RegisterAsync(UserRegistrationRequest request);
+        Task<AuthenticationResult> LoginAsync(UserLoginRequest request); 
     }
 }
